@@ -182,6 +182,62 @@ vector<float> pseudo_range_estimator(vector<float> landmark_positions,
 }
 ```
 
+## Implementation of Full Filter
+
+Implement the Bayes' localization filter by first initializing priors, then doing the following within each time step:
+
+- extract sensor observations
+
+  - for each pseudo-position:
+    - get the motion model probability
+    - determine pseudo ranges
+    - get the observation model probability
+    - use the motion and observation model probabilities to calculate the posterior probability
+  - normalize posteriors (see helpers.h for a normalization function)
+  - update priors (priors --> posteriors)
+
+```python
+// step through each pseudo position x (i)
+for (unsigned int i = 0; i < map_size; ++i) {
+  float pseudo_position = float(i);
+
+  /**
+   * TODO: get the motion model probability for each x position
+   */
+  float motion_prob = motion_model(pseudo_position, movement_per_timestep,
+                                   priors, map_size, control_stdev);
+  /**
+   * TODO: get pseudo ranges
+   */
+  vector<float> pseudo_ranges = pseudo_range_estimator(landmark_positions, 
+                                                       pseudo_position);
+
+  /**
+   * TODO: get observation probability
+   */
+  float observation_prob = observation_model(landmark_positions, observations, 
+                                             pseudo_ranges, distance_max, 
+                                             observation_stdev);
+
+  /**
+   * TODO: calculate the ith posterior
+   */
+  posteriors[i] = motion_prob * observation_prob; 
+} 
+
+/**
+ * TODO: normalize
+ */
+posteriors = Helpers::normalize_vector(posteriors);
+
+/**
+ * TODO: update
+ */
+priors = posteriors;
+}
+
+```
+
 ## Bayes Filter Theory Summary
 
 pic22
