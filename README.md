@@ -68,7 +68,15 @@ pic
 pic
 
 
-## Motion Model
+## Implementation of Motion Model
+
+- For each `x_{t}`
+
+  - Calculate the transition probability for each potential value `x_{t-1}` 
+  
+  - Calculate the discrete motion model probability by multiplying the transition model probability by the belief state (prior) for `x_{t-1}`
+
+- Return total probability (sum) of each discrete probability
 
 ```python
 // implement the motion model: calculates prob of being at 
@@ -93,6 +101,85 @@ float motion_model(float pseudo_position, float movement, vector<float> priors,
   return position_prob;
 }
 
+```
+
+## Implementation of Observation Model
+
+### Observation Model
+
+- For each pseudo position x:
+
+  - For each observation:
+    - determine if a pseudo range vector exists for the current pseudo position x
+    - if the vector exists, extract and store the minimum distance, element 0 of the sorted vector, and remove that element (so we don't re-use it). This will be passed to norm_pdf
+    - if the pseudo range vector does not exist, pass the maximum distance to norm_pdf
+    - use norm_pdf to determine the observation model probability
+    - return the total probability
+    
+```python
+// calculates likelihood prob term based on landmark proximity
+float observation_model(vector<float> landmark_positions, 
+                        vector<float> observations, vector<float> pseudo_ranges, 
+                        float distance_max, float observation_stdev) {
+  // initialize observation probability
+  float distance_prob = 1.0f;
+
+  // run over current observation vector
+  for (int z=0; z< observations.size(); ++z) {
+    // define min distance
+    float pseudo_range_min;
+        
+    // check, if distance vector exists
+    if (pseudo_ranges.size() > 0) {
+      // set min distance
+      pseudo_range_min = pseudo_ranges[0];
+      // remove this entry from pseudo_ranges-vector
+      pseudo_ranges.erase(pseudo_ranges.begin());
+    } else {  // no or negative distances: set min distance to a large number
+        pseudo_range_min = std::numeric_limits<const float>::infinity();
+    }
+
+    // estimate the probability for observation model, this is our likelihood 
+    distance_prob *= Helpers::normpdf(observations[z], pseudo_range_min,
+                                      observation_stdev);
+  }
+  
+  return distance_prob;
+}
+```
+
+### pseudo_range_estimator
+
+- For each pseudo position x:
+  - For each landmark position:
+    - determine the distance between each pseudo position x and each landmark position
+    - if the distance is positive (landmark is forward of the pseudo position) push the distance to the pseudo range vector
+    - sort the pseudo range vector in ascending order
+    - return the pseudo range vector
+
+```python
+vector<float> pseudo_range_estimator(vector<float> landmark_positions, 
+                                     float pseudo_position) {
+  // define pseudo observation vector
+  vector<float> pseudo_ranges;
+            
+  // loop over number of landmarks and estimate pseudo ranges
+  for (int l=0; l< landmark_positions.size(); ++l) {
+    // estimate pseudo range for each single landmark 
+    // and the current state position pose_i:
+    float range_l = landmark_positions[l] - pseudo_position;
+
+    // check if distances are positive: 
+    if (range_l > 0.0f) {
+      pseudo_ranges.push_back(range_l);
+    }
+  }
+
+  // sort pseudo range vector
+  sort(pseudo_ranges.begin(), pseudo_ranges.end());
+
+  return pseudo_ranges;
+}
 ```
 
 ## Bayes Filter Theory Summary
