@@ -9,7 +9,7 @@ Udacity Self-Driving Car Engineer Nanodegree: Markov-Localization.
 
 - For this to work, we must demonstrate that our current belief can be expressed by the belief one step earlier, then use new data to update only the current belief.
 
-pic
+<img src="https://github.com/ChenBohan/Auto-Car-Sensor-Fusion-02-Lidar-and-Radar-Fusion/blob/master/readme_img/Overview%20of%20the%20Kalman%20Filter%20Algorithm%20Map.png" width = "70%" height = "70%" div align=center />
 
 ## Summary
 
@@ -23,7 +23,7 @@ We have accomplished a lot in this lesson.
 
 - Finally we derived the general Bayes Filter for Localization (Markov Localization) by expressing our belief of x at t as a simplified version of our original posterior expression (top equation), `η` multiplied by the simplified observation model and the motion model. Here the motion model is written as `bel`, a prediction model.
 
-pic
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/21-i-finalize-the-bayes-localization-filter.00-01-00-15.still001.png" width = "70%" height = "70%" div align=center />
 
 ## Simplfy Rule
 
@@ -45,7 +45,7 @@ pic
 
 #### Motion Model
 
-pic
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/Total%20Probability%20and%20Markov%20Assumption.png" width = "70%" height = "70%" div align=center />
 
 ### Markov Assumption
 
@@ -55,18 +55,19 @@ pic
 
 - `u_t` is “in the future” with reference to x_{t-1}, `u_t` does not tell us much about `x_{t-1}`.
 
-pic
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/Markov%20Assumption.png" width = "70%" height = "70%" div align=center />
+
 
 #### Observation Model
 
-pic
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/20-i-markov-assumption-for-observation-model-first-try.00-01-18-09.still003.png" width = "70%" height = "70%" div align=center />
+
 
 ### Recursive Structure
 
 #### Motion Model
 
-pic
-
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/14-l-explain-recursive-structure-.00-01-55-15.still004.png" width = "70%" height = "70%" div align=center />
 
 ## Implementation of Motion Model
 
@@ -240,13 +241,13 @@ priors = posteriors;
 
 ## Bayes Filter Theory Summary
 
-pic22
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/22-l-bayes-filter-theory-summary.00-00-22-29.still001.png" width = "70%" height = "70%" div align=center />
 
 - The Bayes Localization Filter Markov Localization is a general framework for recursive state estimation.
 
 - That means this framework allows us to use the previous state (state at t-1) to estimate a new state (state at t) using only current observations and controls (observations and control at t), rather than the entire data history (data from 0:t).
 
-pic22
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/22-l-bayes-filter-theory-summary.00-00-52-03.still002.png" width = "70%" height = "70%" div align=center />
 
 - The motion model describes the prediction step of the filter while the observation model is the update step.
 
