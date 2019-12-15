@@ -9,7 +9,7 @@ Udacity Self-Driving Car Engineer Nanodegree: Markov-Localization.
 
 - For this to work, we must demonstrate that our current belief can be expressed by the belief one step earlier, then use new data to update only the current belief.
 
-<img src="https://github.com/ChenBohan/Auto-Car-Sensor-Fusion-02-Lidar-and-Radar-Fusion/blob/master/readme_img/Overview%20of%20the%20Kalman%20Filter%20Algorithm%20Map.png" width = "70%" height = "70%" div align=center />
+<img src="https://github.com/ChenBohan/CarND-13-Localization-Bayes-Markov-Localization/blob/master/readme_img/Total%20Probability%20and%20Markov%20Assumption.png" width = "70%" height = "70%" div align=center />
 
 ## Summary
 
